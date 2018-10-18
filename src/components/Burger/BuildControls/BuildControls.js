@@ -17,7 +17,10 @@ const buildControls = (props) => {
         <BuildControl 
           key={control.label} 
           ingredient_label={control.label} 
-          addIngredient={() => props.addIngredientProp(control.type)} />
+          // the type is being passed down to every element
+          // that way when button is clicked, the type can be passed up
+          addIngredient={() => props.addIngredientProp(control.type)}
+          removeIngredient={() => props.removeIngredientProp(control.type) } />
       )}
     </div>
   )
