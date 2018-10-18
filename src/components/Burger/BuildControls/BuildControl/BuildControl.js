@@ -5,7 +5,11 @@ const buildControl = (props) => {
   return (
     <div className="BuildControl">
       <div className="Label"> {props.ingredient_label} </div>
-      <button className="More"> Add </button>
+      <button 
+        onClick={props.addIngredient} 
+        className="More"> 
+        Add 
+      </button>
       <button className="Less"> Remove </button>
     </div>
   )
