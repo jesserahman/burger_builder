@@ -43,8 +43,15 @@ class BurgerBuilder extends Component {
     // get current count 
     const current_ingredient_count = this.state.ingredients[type]
     // check current count of ingredient, make sure it doesn't go below 0
-    let new_ingredient_count = current_ingredient_count - 1;
-    let new_total_price = this.state.total_price - INGREDIENT_PRICES[type]; 
+
+    let new_ingredient_count = current_ingredient_count;
+    let new_total_price = this.state.total_price;
+
+    if (current_ingredient_count !== 0){
+      new_ingredient_count = current_ingredient_count - 1;
+      new_total_price = this.state.total_price - INGREDIENT_PRICES[type];
+    }
+  
     // get current ingredient state
     const new_ingredients_object = {...this.state.ingredients}
     new_ingredients_object[type] = new_ingredient_count;
