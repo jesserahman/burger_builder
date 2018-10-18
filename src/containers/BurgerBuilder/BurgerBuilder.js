@@ -22,7 +22,6 @@ class BurgerBuilder extends Component {
   }
 
   addIngredient = (type) => {
-    console.log("ingredient added", type)
     // get the current count for ingredient type
     const ingredient_current_count = this.state.ingredients[type];
     // get the new count for ingredient type
@@ -39,7 +38,6 @@ class BurgerBuilder extends Component {
   }
 
   removeIngredient = (type) => {
-    console.log("ingredient removed", type)
     // get current count 
     const current_ingredient_count = this.state.ingredients[type]
     // check current count of ingredient, make sure it doesn't go below 0
@@ -62,13 +60,27 @@ class BurgerBuilder extends Component {
     })    
   }
 
+  changeToBoolean = () => {
+    const current_ingredients_object = {...this.state.ingredients}
+    for (let ingredient in current_ingredients_object) {
+      if (current_ingredients_object[ingredient] === 0) {
+        current_ingredients_object[ingredient] = true
+      } else {
+        current_ingredients_object[ingredient] = false
+      }
+    }
+    return current_ingredients_object
+  }
+
   render() {
     return (
       <Aux>
         <Burger values={this.state.ingredients} />
         <BuildControls 
+          price={this.state.total_price}
           addIngredientProp={this.addIngredient} 
-          removeIngredientProp={this.removeIngredient} />
+          removeIngredientProp={this.removeIngredient}
+          disabledButtonsProp={this.changeToBoolean()} />
       </Aux>
     )
   }

@@ -11,6 +11,7 @@ const buildControl = (props) => {
         Add 
       </button>
       <button 
+        disabled={props.isButtonDisabled}
         className="Less"
         onClick={props.removeIngredient}> 
         Remove 

@@ -12,6 +12,7 @@ const controls = [
 const buildControls = (props) => {
   return (
     <div className="BuildControls">
+      <p> Burger Price: <strong>${props.price.toFixed(2)}</strong> </p>
       Burger Controls
       {controls.map(control =>
         <BuildControl 
@@ -20,7 +21,8 @@ const buildControls = (props) => {
           // the type is being passed down to every element
           // that way when button is clicked, the type can be passed up
           addIngredient={() => props.addIngredientProp(control.type)}
-          removeIngredient={() => props.removeIngredientProp(control.type) } />
+          removeIngredient={() => props.removeIngredientProp(control.type)}
+          isButtonDisabled={props.disabledButtonsProp[control.type]} />
       )}
     </div>
   )
