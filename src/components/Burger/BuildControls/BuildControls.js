@@ -22,7 +22,9 @@ const buildControls = (props) => {
           // that way when button is clicked, the type can be passed up
           addIngredient={() => props.addIngredientProp(control.type)}
           removeIngredient={() => props.removeIngredientProp(control.type)}
+          // create function to call the other function that was passed down through props
           isButtonDisabled={props.disabledButtonsProp[control.type]} />
+          // here just use the prop that contains the result of the previous function
       )}
     </div>
   )

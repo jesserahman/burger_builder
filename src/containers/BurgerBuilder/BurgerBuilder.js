@@ -77,6 +77,8 @@ class BurgerBuilder extends Component {
       <Aux>
         <Burger values={this.state.ingredients} />
         <BuildControls 
+          // when you don't use () you're just passing a reference to the function
+          // the only time the function is called is when you called it with ()
           price={this.state.total_price}
           addIngredientProp={this.addIngredient} 
           removeIngredientProp={this.removeIngredient}
