@@ -18,7 +18,8 @@ class BurgerBuilder extends Component {
       salad: 0,
       turkey: 0
     },
-    total_price: 4
+    total_price: 4,
+    purchaseable: false
   }
 
   addIngredient = (type) => {
@@ -35,6 +36,7 @@ class BurgerBuilder extends Component {
       ingredients: new_ingredients_object,
       total_price: new_total_price
     });
+    this.checkForEmptyBurger(new_ingredients_object)
   }
 
   removeIngredient = (type) => {
@@ -58,6 +60,7 @@ class BurgerBuilder extends Component {
       ingredients: new_ingredients_object,
       total_price: new_total_price
     })    
+    this.checkForEmptyBurger(new_ingredients_object)
   }
 
   changeToBoolean = () => {
@@ -73,13 +76,16 @@ class BurgerBuilder extends Component {
     return current_ingredients_object
   }
 
-  checkForEmptyBurger = () => {
-    const current_ingredients_object = { ...this.state.ingredients }
-    let isEmpty = true;
-    for (let ingredient in current_ingredients_object){
-      if (current_ingredients_object[ingredient] !== 0) { isEmpty = false}
+  checkForEmptyBurger = (ingredients_object) => {
+    // Always reset purchasable to false in case it was once true
+    // If we don't reset it, then if a user add an item to cart it will become true
+    // But if he/she removes the item, there's no method to make it false
+    this.setState({ purchaseable: false })
+    for (let ingredient in ingredients_object){
+      if (ingredients_object[ingredient] !== 0) {
+        this.setState({ purchaseable: true}) 
+      }
     }
-    return isEmpty
   }
 
   render() {
@@ -93,7 +99,7 @@ class BurgerBuilder extends Component {
           addIngredientProp={this.addIngredient} 
           removeIngredientProp={this.removeIngredient}
           disabledButtonsProp={this.changeToBoolean()}
-          isBurgerEmptyProp={this.checkForEmptyBurger()} />
+          isBurgerEmptyProp={this.state.purchaseable} />
       </Aux>
     )
   }
