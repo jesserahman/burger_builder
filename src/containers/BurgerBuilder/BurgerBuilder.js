@@ -69,7 +69,17 @@ class BurgerBuilder extends Component {
         current_ingredients_object[ingredient] = false
       }
     }
+    console.log(current_ingredients_object)
     return current_ingredients_object
+  }
+
+  checkForEmptyBurger = () => {
+    const current_ingredients_object = { ...this.state.ingredients }
+    let isEmpty = true;
+    for (let ingredient in current_ingredients_object){
+      if (current_ingredients_object[ingredient] !== 0) { isEmpty = false}
+    }
+    return isEmpty
   }
 
   render() {
@@ -82,7 +92,8 @@ class BurgerBuilder extends Component {
           price={this.state.total_price}
           addIngredientProp={this.addIngredient} 
           removeIngredientProp={this.removeIngredient}
-          disabledButtonsProp={this.changeToBoolean()} />
+          disabledButtonsProp={this.changeToBoolean()}
+          isBurgerEmptyProp={this.checkForEmptyBurger()} />
       </Aux>
     )
   }

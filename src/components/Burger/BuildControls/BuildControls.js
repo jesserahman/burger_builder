@@ -10,6 +10,7 @@ const controls = [
 ]
 
 const buildControls = (props) => {
+  console.log(props)
   return (
     <div className="BuildControls">
       <p> Burger Price: <strong>${props.price.toFixed(2)}</strong> </p>
@@ -26,6 +27,9 @@ const buildControls = (props) => {
           isButtonDisabled={props.disabledButtonsProp[control.type]} />
           // here just use the prop that contains the result of the previous function
       )}
+      <button className="OrderButton" disabled={props.isBurgerEmptyProp}>
+        CHECKOUT
+      </button>
     </div>
   )
 }
