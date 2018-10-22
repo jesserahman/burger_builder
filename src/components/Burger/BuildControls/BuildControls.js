@@ -27,7 +27,7 @@ const buildControls = (props) => {
           isButtonDisabled={props.disabledButtonsProp[control.type]} />
           // here just use the prop that contains the result of the previous function
       )}
-      <button className="OrderButton" disabled={!props.isBurgerEmptyProp}>
+      <button onClick={props.orderButtonClickProp} className="OrderButton" disabled={!props.isBurgerEmptyProp}>
         CHECKOUT
       </button>
     </div>
