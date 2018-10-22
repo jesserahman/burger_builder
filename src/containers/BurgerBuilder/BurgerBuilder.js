@@ -32,6 +32,10 @@ class BurgerBuilder extends Component {
     });
   }
 
+  purchaseContinueHandler = () => {
+    console.log("continuing purchase")
+  }
+
   addIngredient = (type) => {
     // get the current count for ingredient type
     const ingredient_current_count = this.state.ingredients[type];
@@ -101,8 +105,14 @@ class BurgerBuilder extends Component {
   render() {
     return (
       <Aux>
-        <Modal show={this.state.orderButtonClicked} backdropClickProp={this.orderButtonClick} >
-          <OrderSummary values={this.state.ingredients}/>
+        <Modal 
+          show={this.state.orderButtonClicked} 
+          backdropClickProp={this.orderButtonClick} >
+          <OrderSummary 
+            price={this.state.total_price}
+            values={this.state.ingredients} 
+            closeModalProp={this.orderButtonClick} 
+            continuePurchaseProp={this.purchaseContinueHandler}/>
         </Modal>
         <Burger values={this.state.ingredients} />
         <BuildControls 

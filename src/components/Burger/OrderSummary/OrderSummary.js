@@ -5,7 +5,6 @@ import Button from '../../UI/Button/Button'
 
 const orderSummary = (props) => {
   const ingredients_object = props.values;
-  console.log("Ingredients object: ", ingredients_object)
   let burgerIndgredients = Object.keys(ingredients_object).map((ingName, index) => {
     return (<li key={ingName + index}> 
               <span style={{textTransform: 'capitalize'}}>{ingName}</span> : {ingredients_object[ingName]} 
@@ -18,9 +17,6 @@ const orderSummary = (props) => {
     []
   );
 
-  console.log("burger ingredients:", burgerIndgredients)
-  console.log("flattened array: ", flattened_array)
-
   return (
     <Aux>
       <h3> Your Order </h3>
@@ -28,10 +24,10 @@ const orderSummary = (props) => {
       <ul>
         {burgerIndgredients}
       </ul>
-      <p> Total price: </p>
+      <p> Total price: {props.price.toFixed(2)} </p>
       <p> Continue to checkout? </p>
-      <Button> CANCEL </Button>
-      <Button> CONTINUE </Button>
+      <Button btnType={"Danger"} clicked={props.closeModalProp} > CANCEL </Button>
+      <Button btnType={"Success"} clicked={props.continuePurchaseProp}> CONTINUE </Button>
     </Aux>
   )
 }
