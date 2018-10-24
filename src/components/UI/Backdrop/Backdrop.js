@@ -2,7 +2,7 @@ import React from 'react';
 import './Backdrop.css'
 
 const backdrop = (props) => {
-  return props.show ? <div className="Backdrop" onClick={props.closeModal}> </div> : null
+  return props.shouldShow ? <div className="Backdrop" onClick={props.close}> </div> : null
 }
 
 export default backdrop;
