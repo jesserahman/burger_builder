@@ -10,19 +10,12 @@ class OrderSummary extends Component {
 
   render(){
     const ingredients_object = this.props.values;
-    let burgerIndgredients = Object.keys(ingredients_object).map((ingName, index) => {
-      return (<li key={ingName + index}>
-        <span style={{ textTransform: 'capitalize' }}>{ingName}</span> : {ingredients_object[ingName]}
-      </li>)
-    }
+      let burgerIndgredients = Object.keys(ingredients_object).map((ingName, index) => {
+        return (<li key={ingName + index}>
+          <span style={{ textTransform: 'capitalize' }}>{ingName}</span> : {ingredients_object[ingName]}
+        </li>)
+      }
     );
-
-    const flattened_array = burgerIndgredients.reduce(
-      (accumulator, currentValue) => accumulator.concat(currentValue),
-      []
-    );
-
-
 
     return (
       <Aux>

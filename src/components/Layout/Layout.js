@@ -6,7 +6,7 @@ import SideMenu from '../UI/Navigation/SideMenu/SideMenu'
 
 class Layout extends Component {
   state = {
-    sideMenu_opened: true
+    sideMenu_opened: false
   }
 
   toggleSideMenu = () => {

@@ -85,7 +85,6 @@ class BurgerBuilder extends Component {
         current_ingredients_object[ingredient] = false
       }
     }
-    console.log(current_ingredients_object)
     return current_ingredients_object
   }
 
