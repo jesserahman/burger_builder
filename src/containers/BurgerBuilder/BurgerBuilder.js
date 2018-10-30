@@ -4,6 +4,8 @@ import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 import Modal from '../../components/UI/Modal/Modal'
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
+import axios from '../../axios-orders'
+import Spinner from '../../components/UI/Spinner/Spinner'
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -14,15 +16,23 @@ const INGREDIENT_PRICES = {
 
 class BurgerBuilder extends Component {
   state = {
-    ingredients: {
-      meat: 0,
-      cheese: 0, 
-      salad: 0,
-      turkey: 0
-    },
+    ingredients: null,
     total_price: 4,
     purchaseable: false,
-    orderButtonClicked: false
+    orderButtonClicked: false,
+    loading: false
+  }
+  
+  componentDidMount (){
+    axios.get('https://react-my-burger-b3992.firebaseio.com//ingredients.json')
+      .then(response => {
+        console.log("Response.ingredients: ", response.data)
+        console.log("Response", response)
+        this.setState({ ingredients: response.data })
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   orderButtonClick = () => {
@@ -32,7 +42,31 @@ class BurgerBuilder extends Component {
   }
 
   purchaseContinueHandler = () => {
-    console.log("continuing purchase")
+    // console.log("continuing purchase")
+    this.setState({loading:true})
+    const order = {
+      ingredients: this.state.ingredients,
+      price: this.state.total_price,
+      customer: {
+        name: "Jesse Rahman",
+        address:{
+          street: "55 Broadway",
+          zip: "10006",
+          country: "USA"
+        },
+        email: "test_burgerbuilder@test.com",
+        deliveryMethod: "fastest" 
+      }
+    }
+    axios.post('/orders.json', order)
+      .then(response => {
+        console.log(response)
+        this.setState({ loading: false, orderButtonClicked: false})
+      })
+      .catch(error => {
+        console.log(error)
+        this.setState({ loading: false, orderButtonClicked: false})
+      });
   }
 
   addIngredient = (type) => {
@@ -101,27 +135,47 @@ class BurgerBuilder extends Component {
   }
 
   render() {
+    // set order summary to null first bc it relies on ingredients which do not yet exist
+    let order_summary = null 
+    
+    //  first set burger to the spinner bc it will be empty by default
+    let burger = <Spinner />
+
+    // if there are no ingredients, don't build a burger
+    if (this.state.ingredients !== null) {
+      burger = (
+        <Aux>
+          <Burger values={this.state.ingredients} />
+          <BuildControls
+            // when you don't use () you're just passing a reference to the function
+            // the only time the function is called is when you called it with ()
+            price={this.state.total_price}
+            addIngredientProp={this.addIngredient}
+            removeIngredientProp={this.removeIngredient}
+            disabledButtonsProp={this.changeToBoolean()}
+            isBurgerEmptyProp={this.state.purchaseable}
+            orderButtonClickProp={this.orderButtonClick} />
+        </Aux>
+      );
+      order_summary = <OrderSummary
+        price={this.state.total_price}
+        values={this.state.ingredients}
+        closeModalProp={this.orderButtonClick}
+        continuePurchaseProp={this.purchaseContinueHandler} />
+    }
+
+    if (this.state.loading === true) {
+      order_summary = <Spinner />
+    }
+      
     return (
       <Aux>
         <Modal 
           show={this.state.orderButtonClicked} 
           backdropClickProp={this.orderButtonClick} >
-          <OrderSummary 
-            price={this.state.total_price}
-            values={this.state.ingredients} 
-            closeModalProp={this.orderButtonClick} 
-            continuePurchaseProp={this.purchaseContinueHandler}/>
+          {order_summary}
         </Modal>
-        <Burger values={this.state.ingredients} />
-        <BuildControls 
-          // when you don't use () you're just passing a reference to the function
-          // the only time the function is called is when you called it with ()
-          price={this.state.total_price}
-          addIngredientProp={this.addIngredient} 
-          removeIngredientProp={this.removeIngredient}
-          disabledButtonsProp={this.changeToBoolean()}
-          isBurgerEmptyProp={this.state.purchaseable}
-          orderButtonClickProp={this.orderButtonClick} />
+        {burger}
       </Aux>
     )
   }
